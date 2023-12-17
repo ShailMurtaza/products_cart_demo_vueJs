@@ -1,1 +1,1 @@
-# Learning VuewJs from freecodecamp
+# Learning vue JS from freecodecamp
