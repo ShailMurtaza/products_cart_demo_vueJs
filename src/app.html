@@ -140,6 +140,9 @@
               sum += totalPrice
             }
             return sum
+          },
+          remove(name) {
+            delete this.cart[name]
           }
         },
         template: `<aside class="cart-container">
@@ -166,13 +169,13 @@
               </thead>
               <tbody>
                 <tr v-for="(quantity, key, i) in cart">
-        <td><i class="icofont-{{key.toLowerCase()}} icofont-3x"></i></td>
+        <td><i :class="'icofont-' + key.toLowerCase().split('s')[0] + ' icofont-3x'"></i></td>
                   <td>{{key}}</td>
                   <td>\$ {{getPrice(key)}}</td>
                   <td class="center">{{quantity}}</td>
                   <td>\$ {{quantity * getPrice(key)}}</td>
                   <td class="center">
-                    <button class="btn btn-light cart-remove">
+                    <button class="btn btn-light cart-remove" @click="remove(key)">
                       x
                     </button>
                   </td>
