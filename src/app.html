@@ -26,7 +26,7 @@
         </nav>
         <a href="#" class="top-bar-cart-link" @click="toggle_sidebar">
           <i class="icofont-cart-alt icofont-1x"></i>
-          <span>Cart (0)</span>
+          <span>Cart ({{ Object.keys(cart).length }})</span>
         </a>
       </header>
 
@@ -120,7 +120,26 @@
       app.component('sidebar', {
         computed: {
           cartTotal() {
-            return this.cart.carrots * 4.48
+            return this.cart.Carrots * 4.82
+          }
+        },
+        methods: {
+          getPrice(name) {
+            const product = this.inventory.find((p)=> {
+              return p.name === name
+            })
+            return product.price.USD
+          },
+          calculateTotal() {
+            const keys = Object.keys(this.cart)
+            var sum = 0
+            for (let i=0;i<keys.length;i++) {
+              let item = keys[i]
+              let quantity = this.cart[item]
+              let totalPrice = this.getPrice(item) * quantity
+              sum += totalPrice
+            }
+            return sum
           }
         },
         template: `<aside class="cart-container">
@@ -147,11 +166,11 @@
               </thead>
               <tbody>
                 <tr v-for="(quantity, key, i) in cart">
-                  <td><i class="icofont-carrot icofont-3x"></i></td>
+        <td><i class="icofont-{{key.toLowerCase()}} icofont-3x"></i></td>
                   <td>{{key}}</td>
-                  <td>$4.82</td>
+                  <td>\$ {{getPrice(key)}}</td>
                   <td class="center">{{quantity}}</td>
-                  <td>{{cart.carrots * 4.82}}</td>
+                  <td>\$ {{quantity * getPrice(key)}}</td>
                   <td class="center">
                     <button class="btn btn-light cart-remove">
                       x
@@ -161,9 +180,9 @@
               </tbody>
             </table>
 
-            <p class="center"><em>No items in cart</em></p>
+            <p class="center" v-if="!Object.keys(cart).length"><em>No items in cart</em></p>
             <div class="spread">
-        <span><strong>Total:</strong>\${{cartTotal}}</span>
+              <span><strong>Total:</strong>\$ {{ calculateTotal().toFixed(2) }}</span>
               <button class="btn btn-light">Checkout</button>
             </div>
           </div>
