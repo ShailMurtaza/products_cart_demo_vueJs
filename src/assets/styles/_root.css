@@ -16,3 +16,6 @@
     --cardBorder: #F6E57B;
     --cardHeaderBackground: #D4D600;
 }
+body {
+    margin: 0;
+}
