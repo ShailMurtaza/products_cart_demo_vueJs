@@ -10,45 +10,12 @@
         <h2>Recommended</h2>
 
         <div class="recommended">
-
-          <div class="card" v-for="product in inventory.slice(5, 8)" :key="product.id">
-            <div class="card-title">
-              {{product.name}}
-            </div>
-            <div class="card-body">
-              <i class="icofont-10x icofont-{{product.icon}}"></i>
-              <form>
-                <div class="row">
-                  <div class="cell">
-                    <label>Type:</label>
-                  </div>
-                  <div class="cell">
-                    <em>{{product.type}}</em>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="cell">
-                    <label>Price:</label>
-                  </div>
-                  <div class="cell">
-                    ${{product.price.USD}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="cell">
-                    <label>Quantity:</label>
-                  </div>
-                  <div class="cell">
-                    <input type="number" v-model="product.quantity">
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="card-footer">
-              <button class="btn btn-light" @click="add_to_cart(product.name, product.quantity)"> Add to cart </button>
-            </div>
-          </div>
-
+          <ProductCard
+          v-for="product in inventory.slice(0, 3)"
+          :key="product.id"
+          :product="product"
+          :add_to_cart="add_to_cart"
+          />
         </div>
 
       </main>
@@ -56,8 +23,12 @@
 
 <script>
 // @ is an alias to /src
+import ProductCard from '@/components/ProductCard.vue'
 export default {
   name: 'HomeView',
-  props: ['inventory', 'add_to_cart']
+  props: ['inventory', 'add_to_cart'],
+  components: {
+    ProductCard
+  }
 }
 </script>
